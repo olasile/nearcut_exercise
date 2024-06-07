@@ -72,7 +72,5 @@ group :test do
   gem "webdrivers"
   gem 'factory_bot'
   gem 'factory_bot_rails'
-  gem 'shoulda-matchers', '~> 5.0'
-  gem 'shoulda-callback-matchers', '~> 1.1.1'
   gem 'database_cleaner-active_record'
 end
