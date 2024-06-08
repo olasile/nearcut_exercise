@@ -5,7 +5,6 @@ RSpec.describe User, type: :model do
 
   context 'valid attributes' do
     it 'is valid with valid attributes' do
-      user = User.new(name: 'Test User', password: 'Aqpfk1swods')
       expect(user).to be_valid
     end
   end

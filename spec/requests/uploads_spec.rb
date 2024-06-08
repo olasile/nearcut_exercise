@@ -12,7 +12,7 @@ RSpec.describe "Uploads", type: :request do
     it 'processes the upload successfully' do
       file = fixture_file_upload(Rails.root.join('spec/fixtures/uploads/users.csv'), 'text/csv')
 
-      expect { post uploads_path, params: { upload: { file: file } } }.to change(User, :count).by(2)
+      expect { post uploads_path(format: :turbo_stream), params: { upload: { file: file } } }.to change(User, :count).by(2)
       expect(assigns(:results)).to be_present
       expect(assigns(:results).count).to eq(7)
     end
