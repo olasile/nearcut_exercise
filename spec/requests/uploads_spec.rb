@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Uploads", type: :request do
-  let(:file) { fixture_file_upload(Rails.root.join('spec/fixtures/uploads/users.csv'), 'text/csv') }
-
   describe 'GET /new' do
     it 'returns a successful response' do
       get new_upload_path
@@ -11,41 +9,20 @@ RSpec.describe "Uploads", type: :request do
   end
 
   describe 'POST /create' do
-    let(:results) do
-      [
-        {
-          name: 'Muhammad',
-          result: 'success',
-        },
-        {
-          name: 'Maria Turing',
-          result: User::PASSWORD_VALIDATION_MESSAGE
-        },
-        {
-          name: 'Isabella',
-          result: User::PASSWORD_VALIDATION_MESSAGE
-        },
-        {
-          name: 'Axel',
-          result: User::PASSWORD_VALIDATION_MESSAGE
-        },
-        {
-          name: '',
-          result: "Name can't be blank"
-        },
-        {
-          name: 'Test User',
-          result: User::PASSWORD_VALIDATION_MESSAGE
-        }
-      ]
+    it 'processes the upload successfully' do
+      file = fixture_file_upload(Rails.root.join('spec/fixtures/uploads/users.csv'), 'text/csv')
+
+      expect { post uploads_path, params: { upload: { file: file } } }.to change(User, :count).by(2)
+      expect(assigns(:results)).to be_present
+      expect(assigns(:results).count).to eq(7)
     end
 
-    it 'processes the users' do
-      post uploads_path, params: { upload: { file: file } }
+    it 'gracefully handles a malformed csv' do
+      malformed_file = fixture_file_upload(Rails.root.join('spec/fixtures/uploads/malformed.csv'), 'text/csv')
 
-      expect(response).to be_successful
-      expect(assigns(:upload)).to be_present
-      expect(assigns(:upload).results).to eq(results)
+      expect { post uploads_path, params: { upload: { file: malformed_file } } }.not_to change(User, :count)
+
+      expect(flash.now[:alert]).to eq("Any value after quoted field isn't allowed in line 3.")
     end
   end
 end
