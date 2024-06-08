@@ -1,0 +1,15 @@
+<h1>New Upload</h1>
+
+<div data-controller="upload">
+  <%= form_with model: @upload, multipart: true do |f| %>
+  <div>
+    <%= f.file_field :file, required: true, accept: '.csv' %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
+
+  <div id="results"></div>
+</div>

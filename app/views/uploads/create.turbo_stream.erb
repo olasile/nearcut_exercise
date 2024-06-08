@@ -1,0 +1,7 @@
+<%= turbo_stream.replace 'results' do %>
+  <ul>
+    <% @results&.each do |result| %>
+      <li><%= result %></li>
+    <% end %>
+  </ul>
+<% end %>

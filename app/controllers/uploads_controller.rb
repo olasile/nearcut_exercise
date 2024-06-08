@@ -8,6 +8,7 @@ class UploadsController < ApplicationController
     @results = @upload.process
   rescue UploadError => e
     flash.now[:alert] = e.message
+    render_flash
   end
 
   private

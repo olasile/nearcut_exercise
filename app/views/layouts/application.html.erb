@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NearcutExercise</title>
+    <title>Nearcut Exercise</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,12 @@
   </head>
 
   <body>
+    <div data-controller="flash">
+      <%= turbo_frame_tag 'flash', data: { flash_target: "message" } do %>
+        <%= render 'flash' %>
+      <% end %>
+    </div>
+
     <%= yield %>
   </body>
 </html>
